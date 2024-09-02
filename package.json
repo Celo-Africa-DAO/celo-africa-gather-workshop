@@ -1,0 +1,17 @@
+{
+  "name": "smart-contract-setup",
+  "version": "1.0.1",
+  "description": "A scaffold to help newbie developers set up smart contract development tools, with boilerplates for Mento (cKES) and Minipay.",
+  "main": "index.js",
+  "type": "module",  
+  "bin": {
+    "smart-contract-setup": "index.js"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Jordan",
+  "license": "MIT"
+}
