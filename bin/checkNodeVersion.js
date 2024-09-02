@@ -22,6 +22,25 @@ export function checkNodeVersion() {
     }
 }
 
+export function checkHardhatVersion() {
+    try {
+        const hardhatVersion = execSync('npx hardhat --version', { encoding: 'utf8' }).trim();
+        console.log(`Hardhat version installed: ${hardhatVersion}`);
+
+        // check if version is empty 
+        if (!hardhatVersion) {
+            console.log('Hardhat is not installed. Installing Hardhat...');
+            execSync('npm install hardhat -g');
+        } else {
+            console.log('Hardhat version is compatible.');
+
+        }
+    } catch (error) {
+        console.log('Unable to determine Hardhat version. Please ensure it is correctly installed.');
+      
+    }
+}
+
 function downloadNodeInstaller() {
     const osType = os.type();
     let downloadUrl;
