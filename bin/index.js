@@ -56,8 +56,7 @@ let stdin = {
   .option("-t, --template <name>", "Specify a template to use for the project")
   .option(
     "-f, --force",
-    "Force project creation even if the output directory is not empty"
-  )
+    "Force project creation even if the output directory is not empty")
   .description("Generate a new Celo Gather Workshop project")
   .action(() => {
     checkNodeVersion(); // Ensure Node.js is properly set up
