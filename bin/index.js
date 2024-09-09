@@ -2,7 +2,7 @@
 import { Command } from "commander";
 
 import { checkNodeVersion, checkHardhatVersion } from "./checkNodeVersion.js";
-import { sendFunds, getBalance } from "./celo-utils.js";
+import { sendFunds, getNativeBalance } from "./celo-utils.js";
 import { createAsync } from "./create.js";
 
 const program = new Command();
@@ -39,24 +39,16 @@ program
 program
   .command("send")
   .description("Send funds from one wallet to another")
-  .requiredOption(
-    "-p, --privateKey <privateKey>",
-    "Private key of the sender's wallet"
-  )
-  .requiredOption("-f, --from <fromAddress>", "Sender's wallet address")
+  .requiredOption("-p, --privateKey <privateKey>", "Private key of the sender's wallet")
   .requiredOption("-t, --to <toAddress>", "Recipient's wallet address")
-  .requiredOption(
-    "-a, --amount <amount>",
-    "Amount to send in CELO (or other token)"
-  )
+  .requiredOption("-a, --amount <amount>", "Amount to send in CELO (or other token)")
   .action(async (options) => {
-    const { privateKey, fromAddress, toAddress, amount } = options;
-    // Set values for the Celo transaction
-    let pvtKey = privateKey;
-    let accountFrom = fromAddress;
-    let addressTo = toAddress;
+    const { privateKey, to, amount } = options;
+    console.log(
+      options, "options"
+    )
 
-    await sendFunds(amount); // Call the sendFunds function from celo-utils
+    await sendFunds(privateKey, to, amount); // Call the sendFunds function from celo-utils
   });
 
 // Command to check the balance of a given wallet
@@ -64,10 +56,9 @@ program
   .command("balance")
   .description("Check the balance of a wallet")
   .requiredOption("-w, --wallet <walletAddress>", "Wallet address to check")
-  .requiredOption("-c, --contract <contractAddress>", "Token contract address")
   .action(async (options) => {
-    const { walletAddress, contractAddress } = options;
-    await getBalance(walletAddress, contractAddress); // Call the getBalance function from celo-utils
+    const { wallet } = options;
+    await getNativeBalance(wallet); // Call the getBalance function from celo-utils
   });
 
 // Display help

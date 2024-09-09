@@ -1,14 +1,11 @@
-import Web3 from 'web3';
+import { ethers, formatEther, parseUnits } from 'ethers'
 
 // Celo Alfajores Testnet RPC URL
-const rpcURL = "https://alfajores-forno.celo-testnet.org"; 
-const web3 = new Web3(rpcURL);
-
-// Enter your private key, sender address, and the recipient's address
-let pvtKey = "";  // enter your private key
-let accountFrom = "";  // enter your wallet address
-let addressTo = "";  // enter the recipient's address
-
+const rpcURL = "https://alfajores-forno.celo-testnet.org";
+// https://alfajores-forno.celo-testnet.org 
+const provider = new ethers.JsonRpcProvider(rpcURL)
+const cUSD_CA = '0x874069fa1eb16d44d622f2e0ca25eea172369bc1'
+const cKES_CA = ''
 
 // ABI to interact with a token contract for balance checking
 const ABI = [
@@ -21,25 +18,28 @@ const ABI = [
     }
 ];
 
+const signer = async(pvtKey) => {
+    const wallet = new ethers.Wallet(pvtKey, provider)
+    return wallet
+}
 
 /**
  * Function to send funds from one account to another on Celo
  */
-async function sendFunds(amountInEther) {
+async function sendFunds(pvtKey, addressTo, amountInEther) {
+    console.log(pvtKey, addressTo, amountInEther)
     try {
-        const gasPrice = await web3.eth.getGasPrice();
-        const nonce = await web3.eth.getTransactionCount(accountFrom);
-
+        const sign  = await signer(pvtKey)
+                
         const tx = {
             gas: 21000,
             to: addressTo,
-            value: web3.utils.toWei(amountInEther, 'ether'),
-            gasPrice: gasPrice,
-            nonce: nonce,
+            value: parseUnits(amountInEther.toString(), 18),
+            feeCurrency: '0x874069fa1eb16d44d622f2e0ca25eea172369bc1',  // "0x2f25deb3848c207fc8e0c34035b3ba7fc157602b", // USDC Adapter address
         };
 
-        const signedTx = await web3.eth.accounts.signTransaction(tx, pvtKey);
-        const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+        const signedTx = await sign.sendTransaction(tx)
+        const receipt = await signedTx.wait()
 
         console.log('Transaction receipt:', receipt);
     } catch (error) {
@@ -50,14 +50,15 @@ async function sendFunds(amountInEther) {
 /**
  * Function to check the balance of a given wallet
  */
-async function getBalance(walletAddress, tokenAddress) {
+async function getNativeBalance(walletAddress) {
     try {
-        const contract = new web3.eth.Contract(ABI, tokenAddress);
-        const balance = await contract.methods.balanceOf(walletAddress).call();
-        const readableBalance = web3.utils.fromWei(balance, 'ether');
+        console.log
 
-        console.log(`Balance for address ${walletAddress}:`, readableBalance);
-        return readableBalance;
+        const balance = await provider.getBalance(walletAddress)
+        const amountInEther = formatEther(balance.toString(), 18)
+
+        console.log(`Balance for address ${walletAddress}:`, amountInEther);
+        return amountInEther;
     } catch (error) {
         console.error('Error checking balance:', error);
     }
@@ -66,5 +67,5 @@ async function getBalance(walletAddress, tokenAddress) {
 
 export {
     sendFunds,
-    getBalance
+    getNativeBalance
 };

@@ -95,7 +95,7 @@ send Command
 Send funds from one wallet to another on the Celo network.
 
 ```bash
-smart-contract-setup send --privateKey <your-private-key> --from <sender-address> --to <recipient-address> --amount <amount-in-CELO>
+smart-contract-setup send --privateKey <your-private-key> --to <recipient-address> --amount <amount-in-CELO>
 Options:
 
 --privateKey <key>: The private key of the sender's wallet.
@@ -107,7 +107,7 @@ balance Command
 Check the balance of a wallet for a specific token on the Celo network.
 
 ```bash
-smart-contract-setup balance --wallet <wallet-address> --contract <token-contract-address>
+smart-contract-setup balance --wallet <wallet-address>
 Options:
 
 --wallet <address>: The wallet address to check the balance of.
