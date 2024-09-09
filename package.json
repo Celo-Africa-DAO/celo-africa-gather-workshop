@@ -19,7 +19,8 @@
     "node-emoji": "^2.1.3",
     "ora": "^8.1.0",
     "path": "^0.12.7",
-    "shelljs": "^0.8.5"
+    "shelljs": "^0.8.5",
+    "web3": "^4.12.1"
   },
   "scripts": {
     "start": "node bin/index.js"

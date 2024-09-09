@@ -1,34 +1,74 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
-import * as dotenv from "dotenv";
+import "hardhat-deploy";
 
+import * as dotenv from "dotenv";
 dotenv.config();
 
+import "./ts-src/scripts/accounts";
 
-const CELO_RPC_URL = process.env.CELO_RPC_URL || "https://forno.celo.org"; // Public Celo RPC URL
-const PRIVATE_KEY = process.env.PRIVATE_KEY || "your-private-key"; // Replace with your actual private key
+if (!process.env.PRIVATE_KEY) {
+  throw new Error("No private key");
+}
 
+if (!process.env.CELOSCAN_API_KEY) {
+  throw new Error("No celoscan key");
+}
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.24",
-  networks: {
-    celo: {
-      url: CELO_RPC_URL,
-      accounts: [PRIVATE_KEY],
-      chainId: 42220, // Celo Mainnet Chain ID
+  solidity: {
+    version: "0.8.20",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 800,
+      },
+      evmVersion: "berlin",
+      metadata: {
+        bytecodeHash: "none",
+      },
     },
+  },
+  networks: {
     alfajores: {
-      url: "https://alfajores-forno.celo-testnet.org", // Celo Testnet RPC URL
-      accounts: [PRIVATE_KEY],
-      chainId: 44787, // Celo Testnet Chain ID
+      url: "https://alfajores-forno.celo-testnet.org",
+      accounts: [process.env.PRIVATE_KEY],
+    },
+    celo: {
+      url: "https://forno.celo.org",
+      accounts: [process.env.PRIVATE_KEY],
     },
   },
   etherscan: {
     apiKey: {
-      // Etherscan-like block explorer API keys
-      celo: process.env.CELOSCAN_API_KEY || "your-celoscan-api-key", // Replace with your actual CeloScan API key
-      alfajores: process.env.CELOSCAN_API_KEY || "your-celoscan-api-key",
+      alfajores: process.env.CELOSCAN_API_KEY,
+      celo: process.env.CELOSCAN_API_KEY,
     },
+    customChains: [
+      {
+        network: "alfajores",
+        chainId: 44787,
+        urls: {
+          apiURL: "https://api-alfajores.celoscan.io/api",
+          browserURL: "https://alfajores.celoscan.io",
+        },
+      },
+      {
+        network: "celo",
+        chainId: 42220,
+        urls: {
+          apiURL: "https://api.celoscan.io/api",
+          browserURL: "https://celoscan.io/",
+        },
+      },
+    ],
+  },
+  namedAccounts: {
+    deployer: 0,
+  },
+  paths: {
+    tests: "ts-src/test",
+    deploy: "ts-src/deploy",
   },
 };
 
