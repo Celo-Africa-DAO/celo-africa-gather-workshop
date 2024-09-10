@@ -1,6 +1,6 @@
 {
   "name": "smart-contract-setup",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A scaffold to help newbie developers set up smart contract development tools, with boilerplates for Mento (cKES) and Celo Composer (Minipay).",
   "main": "bin/index.js",
   "type": "module",

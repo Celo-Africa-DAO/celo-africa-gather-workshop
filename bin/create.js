@@ -9,7 +9,7 @@ import fs from 'fs';
 
 const { ensureDir, readdir } = fsExtra;
 
-const BASE_URL = "https://github.com/Celo-Africa-DAO/Celo-/";
+const BASE_URL = "https://github.com/Celo-Africa-DAO/celo-africa-gather-workshop";
 
 const createAsync = async () => {
 
@@ -98,10 +98,10 @@ const createAsync = async () => {
       scripts: {},
       repository: {
         "type": "git",
-        "url": "git+https://github.com/LiskAfricaEcosystem/scaffold-lisk.git"
+        "url": "git+https://github.com/Celo-Africa-DAO/celo-africa-gather-workshop.git"
       },
-      bugs: {"url": "https://github.com/LiskAfricaEcosystem/scaffold-lisk/issues"},
-      homepage: "https://github.com/LiskAfricaEcosystem/scaffold-lisk/blob/main/README.md",
+      bugs: {"url": "https://github.com/Celo-Africa-DAO/celo-africa-gather-workshop/issues"},
+      homepage: "https://github.com/Celo-Africa-DAO/celo-africa-gather-workshop/blob/main/README.md",
       workspaces: ["packages/*"],
       keywords: ["lisk", "dapp"],
     }

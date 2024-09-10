@@ -20,13 +20,7 @@ A command-line interface (CLI) tool to help developers easily set up smart contr
 
 ## Installation
 
-Before using the tool, ensure you have Node.js installed on your system. You can install the tool by cloning this repository and running `npm install` to install the dependencies.
-
-```bash
-git clone <repo-url>
-cd smart-contract-setup
-npm install
-
+npx smart-contract-setup@latest create
 
 ## Usage
 
