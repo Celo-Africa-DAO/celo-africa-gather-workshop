@@ -7,7 +7,7 @@ const func: DeployFunction = async function ({
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
 
-  await deploy("Counter", {
+  await deploy("Mundo", {
     from: deployer,
     args: [],
     waitConfirmations: 1,
@@ -15,6 +15,6 @@ const func: DeployFunction = async function ({
   });
 };
 
-func.tags = ["Counter"];
+func.tags = ["Mundo"];
 
 export default func;
